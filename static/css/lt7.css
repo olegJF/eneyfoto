@@ -1,0 +1,15 @@
+.imgList {
+    overflow:hidden;
+    display:block;  
+}
+.imgWrapper {
+    display:block;
+    top:50%; 
+    left:0;
+}
+.imgCntr {
+    border: none; 
+    top:-50%; 
+    position:relative; 
+    display:block;
+}

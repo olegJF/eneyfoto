@@ -1,0 +1,62 @@
+{%load staticfiles%}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>{% block title %}{% endblock %}</title>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<link type="text/css" rel="stylesheet" href="{% static "styles/reset.css" %}" />
+<link type="text/css" rel="stylesheet" href="{% static "styles/960.css" %}" />
+<link type="text/css" rel="stylesheet" href="{% static "styles/style.css" %}" />
+<link type="text/css" rel="stylesheet" href="{% static "styles/style-default.css" %}" id="style-switcher" />
+<link type="text/css" rel="stylesheet" href="{% static "styles/vslider.css" %}" />
+
+<link href="{% static "css/style_gallery.css"%}" rel="stylesheet" type="text/css" />
+<link href="{% static "css/tables.css"%}" rel="stylesheet" type="text/css" />
+<link href="{% static "lightgallery/skins/shape/style.css"%}" type="text/css" media="screen" rel="stylesheet" />
+
+<script type="text/javascript" language="javascript" src="{% static "js/bb_code.js"%}"></script>
+<script type="text/javascript" src="{% static "lightgallery/lightgallery.min.js"%}" ></script>
+<script type="text/javascript" src="{% static "lightgallery/lang/ru_utf8.js"%}" ></script>
+<script type="text/javascript"> 	lightgallery.init(); 	</script>
+
+<script type="text/javascript" src="{% static "scripts/jquery.js" %}"></script>
+<script type="text/javascript" src="{% static "scripts/jquery.vslider.js" %}"></script>
+<script type="text/javascript">
+$(window).load(function () {
+    $("#slider").vSlider({
+        width: 960,
+        height: 320,
+    });
+})
+</script>
+</head>
+{% block body %}{% endblock %}
+<div id="content" class="container_12 home">
+  <div id=top-content class="container_12">
+    <div id="logo" class="left"> <a href="{% url 'index' %}"><H1 class="shadow">Шевченко Александр</H1></a><p class="shadow">сам себе фотограф</p> </div>
+    <div id="menu" class=" right shadow"> <img src="{% static "images/menu-square.png" %}" alt="" class="menu-square" />
+      <ul class="left">
+        <li ><a href={% url 'index' %}>Главная</a></li> <!--class="selected" -->
+{#        <li><a href="single.html">Styles</a></li>#}
+{#        <li><a href="blog.html">Blog</a></li>#}
+{#        <li><a href="single-blog.html">Single Page</a></li>#}
+        <li><a href="{% url 'gallery' page_number=1 %}">Галерея</a></li>
+        <li><a href="{% url 'contact'  %}">Контакты</a></li>
+      </ul>
+    </div>
+    <div class="clear"></div>
+    {% block top-body %} {% endblock %}
+    {% block show_pic %}{% endblock %}
+  </div>
+  {% block content%} {% endblock %}
+</div>
+{% block info %}{% endblock %}
+<div id="outer-footer" >
+  <div id="footer" class="container_12">
+    <p class="left">Copyright &copy; <a href="#">eneyfoto.in.ua</a> - All Rights Reserved</p>
+      <p class="left">Powered by <a href="#">- Oleg Novikov -</a> </p>
+    <p class="right">Design By <a target="_blank" href="http://www.codeplay.co.za">Code Play Studios</a> | Download more: <a href="http://www.csstemplatesfree.org">CSS Website Templates</a></p>
+  </div>
+</div>
+</body>
+</html>

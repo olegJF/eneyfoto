@@ -1,0 +1,25 @@
+.imgList {
+    width:210px; 
+    height:210px; 
+    background-color:#fff; 
+    margin: 5px; 
+    padding: 5px; 
+    float: left; 
+    text-align: 
+    center; 
+    position:relative; 
+    display:table;  
+    vertical-align: middle;  
+}
+.imgWrapper {
+    width:200px; 
+    height:200px; 
+    display:table-cell;  
+    vertical-align:middle;  
+    position: relative;
+}
+.imgCntr {
+    border: none; 
+    display:inline; 
+    vertical-align:middle;
+}
