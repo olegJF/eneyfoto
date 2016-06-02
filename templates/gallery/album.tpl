@@ -3,8 +3,8 @@
 
 {% block title %}{{object.title}}{% endblock %}
 
-{% block body %}<body>{% endblock %}
-
+{% block body %}<body>{% endblock body %}
+{% block select_gal %}class="selected"{% endblock select_gal %}
 {% block top-body %}
 <div id="top-body" >
       <h1 class="shadow">&nbsp;</h1>
@@ -22,28 +22,32 @@
 <h3>{{ object.description }}</h3><br>
 
 {% endif %}
-
+<p><a href="{% url 'gallery' page_number %}">&laquo; Назад в галлерею</a></p><br>
 <div id="imgGallery">
-    <table class="output_photo" align="center" cellpadding="2" cellspacing="10">
-        <tr>
-            {% for photo in object.photo_set.all %}
-            <td>
+
+    {% for photo in object.photo_set.all %}
+      <div class="dirImgList"style="text-align: left !important;">
+         <div>
+            <div class="dirImgWrapper">
                 <a href="{{photo.image.url}}" rel="lightgallery[gallery]" title="{{ photo.title }}">
                     <img src="{{ photo.image.thumb_url }}" alt=" " /><br>
                 </a>
-            </td>
-            {% if more_one_line and forloop.counter in photos_rows%}
-            </tr>
-            <tr>
-            {% endif %}
+            </div>
+             <div style="background-color: #fff; height: 30px; margin-top: 2px; padding: 5px">
+               <div class="fb-like"  data-href="{{photo.image.url}}" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div>
+             </div>
+         </div>
+      </div>
+    {%empty%}
+        <div class="dirImgList">
+           <div>
+              <div class="dirImgWrapper">
+                  <img src=" {% static "photos/no_img.jpg"%}"  />
+              </div>
+           </div>
+        </div>
+    {% endfor %}
 
-            {%empty%}
-                <td>
-                    <img src=" {% static "photos/no_img.jpg"%}"  />
-                </td>
-            {% endfor %}
-        </tr>
-    </table>
 </div>
 <div style="clear:both"></div>
 <br>
@@ -60,4 +64,10 @@
 {% endblock %}
 {{ photo.get_absolute_url }}
 
-{% block info %}{% endblock %}
+{% block info %}
+    <div id="info">
+        <div class="container_12">
+
+        </div>
+    </div>
+{% endblock %}

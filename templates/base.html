@@ -31,17 +31,26 @@ $(window).load(function () {
 </script>
 </head>
 {% block body %}{% endblock %}
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ru_RU/sdk.js#xfbml=1&version=v2.6";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
 <div id="content" class="container_12 home">
   <div id=top-content class="container_12">
     <div id="logo" class="left"> <a href="{% url 'index' %}"><H1 class="shadow">Шевченко Александр</H1></a><p class="shadow">сам себе фотограф</p> </div>
     <div id="menu" class=" right shadow"> <img src="{% static "images/menu-square.png" %}" alt="" class="menu-square" />
       <ul class="left">
-        <li ><a href={% url 'index' %}>Главная</a></li> <!--class="selected" -->
+        <li {% block select %}{% endblock select %}><a href={% url 'index' %} >Главная</a></li> <!--class="selected" -->
 {#        <li><a href="single.html">Styles</a></li>#}
 {#        <li><a href="blog.html">Blog</a></li>#}
 {#        <li><a href="single-blog.html">Single Page</a></li>#}
-        <li><a href="{% url 'gallery' page_number=1 %}">Галерея</a></li>
-        <li><a href="{% url 'contact'  %}">Контакты</a></li>
+        <li {% block select_gal %}{% endblock select_gal %}><a href="{% url 'gallery' page_number=1 %}" >Галерея</a></li>
+        <li {% block select_cont %}{% endblock select_cont %}><a href="{% url 'contact'  %}" >Контакты</a></li>
       </ul>
     </div>
     <div class="clear"></div>
@@ -53,8 +62,11 @@ $(window).load(function () {
 {% block info %}{% endblock %}
 <div id="outer-footer" >
   <div id="footer" class="container_12">
-    <p class="left">Copyright &copy; <a href="#">eneyfoto.in.ua</a> - All Rights Reserved</p>
-      <p class="left">Powered by <a href="#">- Oleg Novikov -</a> </p>
+    <p class="left">Copyright &copy; <a href={% url 'index' %}>eneyfoto.in.ua</a> - All Rights Reserved</p>
+      <p class="left">| Powered by  Oleg Novikov | </p>
+      <ul id="links" class="right">
+         <li> <a href="https://facebook.com/al.sh.988?ref=bookmarks"> <img src="{% static 'images/icons/16/facebook.png'%}" alt="" /> </a> </li>
+      </ul>
     <p class="right">Design By <a target="_blank" href="http://www.codeplay.co.za">Code Play Studios</a> | Download more: <a href="http://www.csstemplatesfree.org">CSS Website Templates</a></p>
   </div>
 </div>

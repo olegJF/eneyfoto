@@ -3,7 +3,7 @@
 {% block title %}Галерея{% endblock %}
 
 {% block body %}{% endblock %}
-
+{% block select_gal %}class="selected"{% endblock select_gal %}
 {% block top-body %}
 <div id="top-body" >
       <h1 class="shadow">&nbsp;</h1>
@@ -36,14 +36,14 @@
         </div>
      </div>
 {% endfor %}
-<div style="clear:both"></div>
-<div id="navigation">
+  <div style="clear:both"></div>
+  <div id="navigation">
     <div class="clearfix">
       {% if  item_list.paginator.page_range > 1 %}
         {% if item_list.has_previous %}
             <a class="prev page-numbers" href="{% url 'gallery' item_list.previous_page_number %}">&laquo; </a>
         {% else %}
-           <span class="page-numbers"> &laquo;</span>
+
         {% endif %}
         {% for page in item_list.paginator.page_range %}
             {% if page == item_list.number %}
@@ -55,14 +55,22 @@
         {% if item_list.has_next %}
             <a class="next page-numbers" href="{% url 'gallery' item_list.next_page_number %}">&raquo; </a>
         {% else %}
-           <span class="page-numbers">&raquo;</span>
+
         {% endif %}
       {% endif %}
     </div>
-</div>
+  </div>
 </div>
 {% endblock %}
 
 
-{% block info %}{% endblock %}
+{% block info %}
+    <div id="info">
+
+        <div class="container_12">
+
+
+        </div>
+    </div>
+{% endblock %}
 
