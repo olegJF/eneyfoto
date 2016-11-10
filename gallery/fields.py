@@ -18,6 +18,7 @@ def _add_thumb(s):
 
 class ThumbnailImageFieldFile(ImageFieldFile):
     def _get_thumb_path(self):
+        #print('self.path=', _add_thumb(self.path))
         return _add_thumb(self.path)
     thumb_path = property(_get_thumb_path)
 
@@ -60,10 +61,11 @@ class ThumbnailImageFieldFile(ImageFieldFile):
         )
         img.save(self.thumb_path, 'JPEG')
 
-    def delete(self, save=True):
-        if os.path.exists(self.thumb_path):
-            os.remove(self.thumb_path)
-        super(ThumbnailImageFieldFile, self).delete(save)
+    # def delete(self, save=True):
+    #     print('self.thumb_path', self.thumb_path)
+    #     if os.path.exists(self.thumb_path):
+    #         os.remove(self.thumb_path)
+    #     super(ThumbnailImageFieldFile, self).delete(save)
 
 
 class ThumbnailImageField(ImageField):
@@ -86,4 +88,10 @@ class ThumbnailImageField(ImageField):
 
 
         super(ThumbnailImageField, self).__init__(*args, **kwargs)
+
+    # def delete(self, save=True):
+    #     print('self.thumb_path', self.thumb_path)
+    #     if os.path.exists(self.thumb_path):
+    #         os.remove(self.thumb_path)
+    #     super(ThumbnailImageField, self).delete(save)
 

@@ -51,6 +51,14 @@ $(window).load(function () {
 {#        <li><a href="single-blog.html">Single Page</a></li>#}
         <li {% block select_gal %}{% endblock select_gal %}><a href="{% url 'gallery' page_number=1 %}" >Галерея</a></li>
         <li {% block select_cont %}{% endblock select_cont %}><a href="{% url 'contact'  %}" >Контакты</a></li>
+        {% if request.user.is_authenticated %}
+{#            <li {% block select_alb %}{% endblock select_alb %}><a href="{% url 'add_album' page_number=1 %}" >Добавить альбом</a></li>#}
+            <li {% block select_choice %}{% endblock select_choice %}><a href="{% url 'choice'  %}" >Редактирование</a></li>
+            <li ><a href="{% url 'logout' %}" >Выйти</a></li>
+        {% else %}
+            <li {% block select_in %}{% endblock select_in %}><a href="{% url 'login'%}" >Войти</a></li>
+        {% endif %}
+
       </ul>
     </div>
     <div class="clear"></div>

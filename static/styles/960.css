@@ -369,6 +369,16 @@ body{
 .container_16 .pull_15{
 	left:-900px
 }
+.container_12 form{
+	min-height:280px;
+	margin: 20px auto;
+
+
+}
+.container_12 input{
+	margin: 10px 0;
+	/*display: block;*/
+}
 .clear{
 	clear:both;
 	display:block;

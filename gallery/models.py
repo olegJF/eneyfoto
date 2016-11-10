@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
+import os
 from django.db import models
 from django.core.urlresolvers import reverse
 from django.db.models import permalink
 # from gallery.fields import ThumbnailImageField
+from django.dispatch import receiver
 from gallery.fields import ThumbnailImageField
+
 
 class Album(models.Model):
     name = models.CharField(blank=True, max_length=30, verbose_name='Название альбома транслитом')
@@ -24,10 +27,12 @@ class Album(models.Model):
     #def get_absolute_url(self):
     #   return ('item_detail', None, {'object_id': self.id})
 
+
+
 class Photo (models.Model):
-    item = models.ForeignKey(Album)
+    item = models.ForeignKey(Album, verbose_name='Название альбома')
     title = models.CharField(max_length=100, verbose_name='Название фото')
-    image = ThumbnailImageField(upload_to='photos')
+    image = ThumbnailImageField(upload_to='photos', verbose_name='Фото')
     caption = models.TextField(blank=True, verbose_name='Описание фото')
 
     class Meta:
@@ -37,6 +42,25 @@ class Photo (models.Model):
 
     def __unicode__(self):
         return self.title
+
+    # def delete(self, *args, **kwargs):
+    #     print('from main class', self.image)
+    #
+    #     if os.path.exists(self.image._get_path()):
+    #         print('OK')
+    #     else:
+    #         print('os.path', self.image.url)
+    #
+    #     super(Photo, self).delete(*args, **kwargs)
+
+
+@receiver(models.signals.pre_delete, sender=Photo, weak=False)
+def delete_photo(sender, instance, **kwargs):
+    path_to_photo = instance.image.path
+    path_to_thumb = path_to_photo[:-3]+'thumb.'+ path_to_photo[-3:]
+    os.remove(path_to_photo)
+    os.remove(path_to_thumb)
+
 
 
     #def get_absolute_url(self):
@@ -55,3 +79,7 @@ class Photo (models.Model):
 #
 #     def __unicode__(self):
 #         return self.title
+# from gallery.models import Photo
+# p=Photo.objects.get(pk=1)
+# import os
+# os.path.exists(p.image.path)
