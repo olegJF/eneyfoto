@@ -36,6 +36,12 @@
     <li><a href="{% url 'choice_photo'   %}"  >Редактировать</a>&nbsp;</li>
     <li><a href="{% url 'add_photo'   %}"  >Добавить</a>&nbsp;</li>
 </ul>
+<p>&nbsp;</p>
+<h3>Static</h3>
+<ul>
+    <li><a href="{% url 'choice_fp'   %}"  >Редактировать</a></li>
+</ul>
+
   <div style="clear:both"></div>
 {#  <div id="navigation">#}
 {#    <div class="clearfix">#}

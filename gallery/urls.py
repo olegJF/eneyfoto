@@ -15,6 +15,8 @@ urlpatterns = [
     url(r'^delete/photo/(?P<photo_id>\d+)/$', views.delete_photo, name='delete_photo'),
     url(r'^choice/photo/$', views.choice_photo, name='choice_photo'),
     url(r'^edit/photo/(?P<photo_id>\d+)/$', views.edit_photo, name='edit_photo'),
+    url(r'^choice/fp/$', views.choice_fp, name='choice_fp'),
+    url(r'^edit/fp/(?P<fp_id>\d+)/$', views.edit_fp, name='edit_fp'),
     url(r'^$', views.gallery, name='gallery'),
 
 

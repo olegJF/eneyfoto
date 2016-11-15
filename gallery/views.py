@@ -2,14 +2,21 @@
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.flatpages.models import FlatPage
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
-from gallery.forms import AlbumForm, PhotoForm
+from gallery.forms import AlbumForm, PhotoForm, FlatPageForm
 from gallery.models import Album, Photo
 from django.core.paginator import Paginator, InvalidPage
 #from django.http import HttpResponse, request
 
 
+@login_required(login_url='/login/')
+def choice(request):
+    return render(request, 'gallery/choice_to_do.tpl')
+
+
+# edit\delete album
 @login_required(login_url='/login/')
 def add_album(request):
     form = AlbumForm(request.POST or None)
@@ -31,10 +38,34 @@ def add_album(request):
 
     return render(request, 'gallery/add_album.tpl', context)
 
-@login_required(login_url='/login/')
-def choice(request):
-    return render(request, 'gallery/choice_to_do.tpl')
 
+@login_required(login_url='/login/')
+def edit_album_choice(request):
+    all_albums = Album.objects.all()
+    return render(request, 'gallery/choice_album.tpl', {'item_list': all_albums})
+
+
+@login_required(login_url='/login/')
+def edit_album(request, album_id):
+    item = get_object_or_404(Album, id=album_id)
+    form = AlbumForm(request.POST or None, instance=item)
+    context = { 'item': item, 'form': form, }
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        messages.success(request, 'Отредактировано!')
+        return redirect('choice_album')
+    return render(request, 'gallery/edit_album.tpl', context)
+
+
+@login_required(login_url='/login/')
+def delete_album(request, album_id):
+    item = get_object_or_404(Album, id=album_id)
+    item.delete()
+    messages.success(request, 'Альбом был успешно удален!')
+    return redirect('choice_album')
+
+
+# edit\delete photo
 @login_required(login_url='/login/')
 def add_photo(request):
     if request.method == "POST":
@@ -53,33 +84,12 @@ def add_photo(request):
         }
     return render(request, 'gallery/add_photo.tpl', context)
 
+
 @login_required(login_url='/login/')
 def choice_photo(request):
     all_albums = Album.objects.all()
-    return render(request, 'gallery/choice_photo.tpl', {'item_list':all_albums})
+    return render(request, 'gallery/choice_photo.tpl', {'item_list': all_albums})
 
-@login_required(login_url='/login/')
-def edit_album_choice(request):
-    all_albums = Album.objects.all()
-    return render(request, 'gallery/choice_album.tpl', {'item_list':all_albums})
-
-@login_required(login_url='/login/')
-def edit_album(request, album_id):
-    item = get_object_or_404(Album, id=album_id)
-    form = AlbumForm(request.POST or None, instance=item)
-    context = { 'item': item, 'form': form, }
-    if request.method == 'POST' and form.is_valid():
-        form.save()
-        messages.success(request, 'Отредактировано!')
-        return redirect('choice_album')
-    return render(request, 'gallery/edit_album.tpl', context)
-
-@login_required(login_url='/login/')
-def delete_album(request, album_id):
-    item = get_object_or_404(Album, id=album_id)
-    item.delete()
-    messages.success(request, 'Альбом был успешно удален!')
-    return redirect('choice_album')
 
 @login_required(login_url='/login/')
 def delete_photo(request, photo_id):
@@ -87,6 +97,7 @@ def delete_photo(request, photo_id):
     item.delete()
     messages.success(request, 'Фотография успешна удалена!')
     return redirect('choice_photo')
+
 
 @login_required(login_url='/login/')
 def edit_photo(request, photo_id):
@@ -102,24 +113,46 @@ def edit_photo(request, photo_id):
         return redirect('choice_photo')
     return render(request, 'gallery/edit_photo.tpl', context)
 
+
+# edit\delete flatpage
+@login_required(login_url='/login/')
+def choice_fp(request):
+    all_pages = FlatPage.objects.all()
+    print('all_pages', all_pages)
+    return render(request, 'gallery/choice_fp.tpl', {'item_list':all_pages})
+
+
+@login_required(login_url='/login/')
+def edit_fp(request, fp_id):
+    page = get_object_or_404(FlatPage, pk=fp_id)
+    form = FlatPageForm(request.POST or None, instance=page)
+    context = {'items': page, 'form': form, }
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        messages.success(request, 'Отредактировано!')
+        return redirect('choice_fp')
+    return render(request, 'gallery/edit_fp.tpl', context)
+
+
 def gallery(request, page_number=1):
     all_albums = Album.objects.all()
     current_page = Paginator(all_albums, 16)
     try:
         item_list = current_page.page(page_number)
     except InvalidPage:
-        return redirect('/gallery/1/', page_number = 1)
+        return redirect('/gallery/1/', page_number=1)
 
-    return render(request, 'gallery/index.tpl', {'item_list':item_list, 'page_number':page_number})
+    return render(request, 'gallery/index.tpl', {'item_list': item_list, 'page_number': page_number})
+
 
 def album(request, object_id, page_number=1):
     try:
-        photos_list = Album.objects.get( pk=object_id)
+        photos_list = Album.objects.get(pk=object_id)
 
     except IndentationError:
-        photos_list = Album.objects.get( pk=1)
+        photos_list = Album.objects.get(pk=1)
     except ObjectDoesNotExist:
-        photos_list = Album.objects.get( pk=1)
+        photos_list = Album.objects.get(pk=1)
 
     count = photos_list.photo_set.count()
     context = dict()
@@ -134,8 +167,6 @@ def album(request, object_id, page_number=1):
         more_one_line = True
         for i in range(1, cnt+1):
             photos_rows.append(i*photo_in_row)
-
-
         #if count%photo_in_row:
         #   photo_last_line=True
         #   for i in range(cnt*photo_in_row, count):
@@ -145,8 +176,4 @@ def album(request, object_id, page_number=1):
     context['page_number'] = page_number
     #context['photo_last_line'] = photo_last_line
     #context['photo_in_last_line'] = photo_in_last_line
-
-
     return render(request, 'gallery/album.tpl', context)
-
-

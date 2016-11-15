@@ -23,6 +23,10 @@ class Album(models.Model):
     def __unicode__(self):
         return self.title
 
+    # def delete(self, *args, **kwargs):
+    #     print('from Album class', self.pk)
+    #     super(Album, self).delete(*args, **kwargs)
+
 
     #def get_absolute_url(self):
     #   return ('item_detail', None, {'object_id': self.id})
@@ -58,10 +62,16 @@ class Photo (models.Model):
 def delete_photo(sender, instance, **kwargs):
     path_to_photo = instance.image.path
     path_to_thumb = path_to_photo[:-3]+'thumb.'+ path_to_photo[-3:]
-    os.remove(path_to_photo)
-    os.remove(path_to_thumb)
+    if os.path.exists(path_to_photo):
+        os.remove(path_to_photo)
+    if os.path.exists(path_to_thumb):
+        os.remove(path_to_thumb)
 
-
+@receiver(models.signals.pre_delete, sender=Album, weak=False)
+def delete_photos_from_album(sender, instance, **kwargs):
+    photo_list = Photo.objects.filter(item=instance.id)
+    for photo in photo_list:
+        photo.delete()
 
     #def get_absolute_url(self):
     #   return reverse('album', args=[str(self.id)])

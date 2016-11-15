@@ -15,7 +15,7 @@
 
 {% block content %}
 <div id="gallery" class="container_12">
-<h2 class="dotted grey-shadow "><span>Choice a foto!</span></h2>
+<h2 class="dotted grey-shadow "><span>Выберите фотографию для редактирования.</span></h2>
 {% if messages %}
     {% for message in messages %}
         <h3{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</h3>
