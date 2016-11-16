@@ -28,7 +28,7 @@
             <h3>{{ page.title }}</h3>
 
             <div style="display: inline">
-            <a href=" {% url 'edit_fp'  page.pk %}">EDIT</a>
+            <a href=" {% url 'edit_fp'  page.pk %}">Редактировать</a>
             <p>&nbsp;</p>
             </div>
         </div>

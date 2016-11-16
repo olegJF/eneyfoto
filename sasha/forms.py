@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from django import forms
-from django.contrib.auth import (login, logout, authenticate, get_user_model)
-
+from django.contrib.auth import (authenticate, get_user_model)
 
 User = get_user_model()
+
 
 class UserLoginForm(forms.Form):
     username = forms.CharField()

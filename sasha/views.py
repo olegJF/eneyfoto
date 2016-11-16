@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render, redirect
 from django.contrib.flatpages.models import FlatPage
+from django.contrib.auth import (login, logout, authenticate)
 
-from django.contrib.auth import (login, logout, authenticate, get_user_model)
-from  .forms import UserLoginForm
+from .forms import UserLoginForm
 
 
 def login_view(request):
@@ -21,10 +21,12 @@ def login_view(request):
     }
     return render(request, 'login_form.tpl', context)
 
+
 def logout_view(request):
     logout(request)
 
     return redirect('index')
+
 
 def index(request):
     news1 = FlatPage.objects.get(url='/news1/')
@@ -39,6 +41,7 @@ def index(request):
         'news3_content': news3.content,
     }
     return render(request, 'index.tpl', context)
+
 
 def contact(request):
     flatpage = FlatPage.objects.get(url='/contact/')

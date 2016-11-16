@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from django.forms import ModelForm, Form
+from django.forms import ModelForm
 from django.contrib.flatpages.models import FlatPage
 from gallery.models import Album, Photo
 

@@ -2,6 +2,7 @@
 
 from django.db import models
 
+
 class Article(models.Model):
     title = models.CharField(max_length=100, verbose_name='Название статьи')
     content = models.TextField(verbose_name='Содержимое статьи')

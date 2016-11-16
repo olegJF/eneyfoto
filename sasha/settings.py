@@ -39,8 +39,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.sites',     # добавить для flatpage
-    'django.contrib.flatpages', # добавить для flatpage
+    'django.contrib.sites',  # добавить для flatpage
+    'django.contrib.flatpages',  # добавить для flatpage
     'gallery',
 )
 
@@ -53,7 +53,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware', # добавить для flatpage
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',  # добавить для flatpage
 )
 
 ROOT_URLCONF = 'sasha.urls'
@@ -102,7 +102,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-SITE_ID = 1 # добавить для flatpage
+SITE_ID = 1  # добавить для flatpage
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
@@ -110,14 +110,14 @@ SITE_ID = 1 # добавить для flatpage
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
-     os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, "static"),
 
- )
+)
 
-STATIC_ROOT =os.path.join(os.path.expanduser('~'), 'static/')
+STATIC_ROOT = os.path.join(os.path.expanduser('~'), 'static/')
 
-MEDIA_URL='/media/'
-#MEDIA_ROOT = ''     #os.path.join(os.path.expanduser('~'), 'media/')
+MEDIA_URL = '/media/'
+# MEDIA_ROOT = ''     #os.path.join(os.path.expanduser('~'), 'media/')
 
 
 MEDIA_ROOT = 'media/'

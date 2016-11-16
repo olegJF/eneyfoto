@@ -8,7 +8,9 @@ from django.core.exceptions import ObjectDoesNotExist
 from gallery.forms import AlbumForm, PhotoForm, FlatPageForm
 from gallery.models import Album, Photo
 from django.core.paginator import Paginator, InvalidPage
-#from django.http import HttpResponse, request
+
+
+# from django.http import HttpResponse, request
 
 
 @login_required(login_url='/login/')
@@ -21,15 +23,15 @@ def choice(request):
 def add_album(request):
     form = AlbumForm(request.POST or None)
     context = {
-       "form": form
+        "form": form
     }
-    if request.method == 'POST'and form.is_valid():
+    if request.method == 'POST' and form.is_valid():
         instance = form.save(commit=False)
 
-        #title = form.cleaned_data.get('title', None)
+        # title = form.cleaned_data.get('title', None)
         # description = form.cleaned_data("description")
         # instance, created = Album.objects.get_or_create(title=title, description=description)
-        #print(title)
+        # print(title)
         instance.save()
         messages.success(request, 'Альбом создан')
         return redirect('choice_album')
@@ -49,7 +51,7 @@ def edit_album_choice(request):
 def edit_album(request, album_id):
     item = get_object_or_404(Album, id=album_id)
     form = AlbumForm(request.POST or None, instance=item)
-    context = { 'item': item, 'form': form, }
+    context = {'item': item, 'form': form, }
     if request.method == 'POST' and form.is_valid():
         form.save()
         messages.success(request, 'Отредактировано!')
@@ -69,7 +71,7 @@ def delete_album(request, album_id):
 @login_required(login_url='/login/')
 def add_photo(request):
     if request.method == "POST":
-        form = PhotoForm(request.POST,  request.FILES)
+        form = PhotoForm(request.POST, request.FILES)
         if form.is_valid():
             instance = form.save(commit=False)
             instance.save()
@@ -80,7 +82,7 @@ def add_photo(request):
     else:
         form = PhotoForm()
         context = {
-           "form": form
+            "form": form
         }
     return render(request, 'gallery/add_photo.tpl', context)
 
@@ -119,7 +121,7 @@ def edit_photo(request, photo_id):
 def choice_fp(request):
     all_pages = FlatPage.objects.all()
     print('all_pages', all_pages)
-    return render(request, 'gallery/choice_fp.tpl', {'item_list':all_pages})
+    return render(request, 'gallery/choice_fp.tpl', {'item_list': all_pages})
 
 
 @login_required(login_url='/login/')
@@ -159,21 +161,21 @@ def album(request, object_id, page_number=1):
     context['object'] = photos_list
     photos_rows = []
     more_one_line = False
-    #photo_last_line = False
-    #photo_in_last_line = []
+    # photo_last_line = False
+    # photo_in_last_line = []
     photo_in_row = 3
     if count > photo_in_row:
-        cnt = count/photo_in_row
+        cnt = count / photo_in_row
         more_one_line = True
-        for i in range(1, cnt+1):
-            photos_rows.append(i*photo_in_row)
-        #if count%photo_in_row:
-        #   photo_last_line=True
-        #   for i in range(cnt*photo_in_row, count):
-        #       photo_in_last_line.append(i+1)
+        for i in range(1, cnt + 1):
+            photos_rows.append(i * photo_in_row)
+            # if count%photo_in_row:
+            #   photo_last_line=True
+            #   for i in range(cnt*photo_in_row, count):
+            #       photo_in_last_line.append(i+1)
     context['photos_rows'] = photos_rows
     context['more_one_line'] = more_one_line
     context['page_number'] = page_number
-    #context['photo_last_line'] = photo_last_line
-    #context['photo_in_last_line'] = photo_in_last_line
+    # context['photo_last_line'] = photo_last_line
+    # context['photo_in_last_line'] = photo_in_last_line
     return render(request, 'gallery/album.tpl', context)
