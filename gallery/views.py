@@ -3,11 +3,13 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.flatpages.models import FlatPage
+from django.views.generic.edit import FormView
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
 from gallery.forms import AlbumForm, PhotoForm, FlatPageForm
 from gallery.models import Album, Photo
 from django.core.paginator import Paginator, InvalidPage
+from django.contrib.messages.views import SuccessMessageMixin
 
 
 # from django.http import HttpResponse, request
@@ -85,6 +87,35 @@ def add_photo(request):
             "form": form
         }
     return render(request, 'gallery/add_photo.tpl', context)
+
+
+class FileUploadView(SuccessMessageMixin, FormView):
+    form_class = PhotoForm
+    template_name = 'gallery/add_photo.tpl'  
+    success_url = '/gallery/choice/'  # Replace with your URL or reverse().
+
+    def post(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        files = request.FILES.getlist('file_field')
+        if form.is_valid():
+            album_id = request.POST['item']
+            if request.POST['title']:
+                title = request.POST['title']
+            else: title =''
+            if request.POST['caption']:
+                caption = request.POST['caption']
+            else: caption = ''
+            for f in files:
+                one_image = Photo(item_id=album_id, image=f,
+                                  title=title, caption=caption)
+                one_image.save()
+            if len(files) >1:
+                success_message =  'Фотографии добавлены'
+            else: success_message = 'Фотография добавлена'
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
 
 
 @login_required(login_url='/login/')

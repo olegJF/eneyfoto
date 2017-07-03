@@ -16,6 +16,7 @@
 {% block content %}
 <div id="gallery" class="container_12">
 <h2 class="dotted grey-shadow "><span>Выбор действий</span></h2>
+<h3>{{success_message}}</h3>
 {% if messages %}
 {#<ul class="messages">#}
     {% for message in messages %}

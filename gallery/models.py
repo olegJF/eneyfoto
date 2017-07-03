@@ -31,7 +31,7 @@ class Album(models.Model):
 
 class Photo(models.Model):
     item = models.ForeignKey(Album, verbose_name='Название альбома')
-    title = models.CharField(max_length=100, verbose_name='Название фото')
+    title = models.CharField(blank=True, max_length=100, verbose_name='Название фото')
     image = ThumbnailImageField(upload_to='photos', verbose_name='Фото')
     caption = models.TextField(blank=True, verbose_name='Описание фото')
 

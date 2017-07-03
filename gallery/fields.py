@@ -46,7 +46,7 @@ class ThumbnailImageFieldFile(ImageFieldFile):
     def save(self, name, content, save=True):
         from datetime import datetime
         dt = str(datetime.now()).replace('-', '_').replace(':', '').replace(' ', '_')
-        img_name = 'img_' + dt.split('.')[0] + '.jpg'
+        img_name = 'img_' + dt.replace('.', '_') + '.jpg'
         super(ThumbnailImageFieldFile, self).save(img_name, content, save)
         img = Image.open(self.path)
         (width, height) = img.size

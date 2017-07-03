@@ -1,23 +1,25 @@
 # -*- coding: utf-8 -*-
 
-from django.forms import ModelForm
+from django import forms
 from django.contrib.flatpages.models import FlatPage
 from gallery.models import Album, Photo
 
 
-class AlbumForm(ModelForm):
+class AlbumForm(forms.ModelForm):
     class Meta:
         model = Album
         fields = ['title', 'description']
 
 
-class PhotoForm(ModelForm):
+class PhotoForm(forms.ModelForm):
+    file_field = forms.FileField(label='Фото', widget=forms.ClearableFileInput(attrs={'multiple': True}))    
+
     class Meta:
         model = Photo
-        fields = ['item', 'title', 'image', 'caption']
+        fields = ['item', 'title', 'caption']
 
 
-class FlatPageForm(ModelForm):
+class FlatPageForm(forms.ModelForm):
     class Meta:
         model = FlatPage
         fields = ['title', 'content']
