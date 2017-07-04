@@ -69,7 +69,7 @@ def delete_album(request, album_id):
     return redirect('choice_album')
 
 
-# edit\delete photo
+# add\edit\delete photo
 @login_required(login_url='/login/')
 def add_photo(request):
     if request.method == "POST":
@@ -92,7 +92,7 @@ def add_photo(request):
 class FileUploadView(SuccessMessageMixin, FormView):
     form_class = PhotoForm
     template_name = 'gallery/add_photo.tpl'  
-    success_url = '/gallery/choice/'  # Replace with your URL or reverse().
+    success_url = '/gallery/add/photo/'  # Replace with your URL or reverse().
 
     def post(self, request, *args, **kwargs):
         form_class = self.get_form_class()
@@ -111,11 +111,14 @@ class FileUploadView(SuccessMessageMixin, FormView):
                                   title=title, caption=caption)
                 one_image.save()
             if len(files) >1:
-                success_message =  'Фотографии добавлены'
-            else: success_message = 'Фотография добавлена'
+                messages.success(request, 'Фотографии добавлены') 
+            else: messages.success(request, 'Фотография добавлена')
+            
             return self.form_valid(form)
         else:
             return self.form_invalid(form)
+            
+    
 
 
 @login_required(login_url='/login/')

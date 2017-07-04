@@ -21,7 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = ''
+SECRET_KEY = 'fg!=nrtan_5skt11g)i(qc49#i7-a5-hql=9wd=82u0#3bjrmg'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # admin localhost  admin: root
@@ -50,6 +50,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+    #'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -121,3 +122,5 @@ MEDIA_URL = '/media/'
 
 
 MEDIA_ROOT = 'media/'
+
+#MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
